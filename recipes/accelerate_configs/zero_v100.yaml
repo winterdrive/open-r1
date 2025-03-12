@@ -1,0 +1,22 @@
+compute_environment: LOCAL_MACHINE
+debug: false
+deepspeed_config:
+  deepspeed_multinode_launcher: standard
+  offload_optimizer_device: none  # 不需要 offload，V100 顯存足夠
+  offload_param_device: none      # 不需要 offload
+  zero3_init_flag: true           # 啟用 Zero 3 初始化
+  zero3_save_16bit_model: true    # 儲存 16-bit 模型
+  zero_stage: 3                   # 使用 Zero 3
+distributed_type: DEEPSPEED
+downcast_bf16: 'no'               # V100 不支援 bf16，改為 fp16
+machine_rank: 0
+main_training_function: main
+mixed_precision: fp16             # V100 支援 fp16
+num_machines: 1
+num_processes: 8                  # 使用 8 張 GPU
+rdzv_backend: static
+same_network: true
+tpu_env: []
+tpu_use_cluster: false
+tpu_use_sudo: false
+use_cpu: false
