@@ -1,8 +1,8 @@
 # 進入專案目錄
-cd OpenR1_PT/open-r1
+cd /mnt/openr1_data_disk/OpenR1_PT/open-r1
 
 # 啟用 Python 虛擬環境
-source openr1/bin/activate
+source TWM_R1/bin/activate
 
 # Huggingface 與 wandb 登入（注意：以下指令使用標準輸入方式傳入 API key）
 huggingface-cli login
