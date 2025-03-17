@@ -29,3 +29,19 @@ accelerate launch   --config_file recipes/accelerate_configs/8v100.yaml   --num_
 
 # GPU 使用率監控:
 watch -n 1 nvidia-smi
+
+# benchmark
+#!/bin/bash
+# 使用 8 個 GPU 進行資料並行評估，並使用本地模型
+NUM_GPUS=8
+MODEL="/mnt/openr1_data_disk/OpenR1_PT/open-r1/data/gemma-3-1b-it"
+# 由於 Tesla V100 不支援 bfloat16，這裡使用 half (float16)
+MODEL_ARGS="pretrained=$MODEL,dtype=half,data_parallel_size=$NUM_GPUS,max_model_length=32768,gpu_memory_utilization=0.8,generation_parameters={\"max_new_tokens\":32768,\"temperature\":0.6,\"top_p\":0.95}"
+TASK="aime24"
+OUTPUT_DIR="data/evals/$(basename $MODEL)"
+
+lighteval vllm $MODEL_ARGS "custom|$TASK|0|0" \
+    --custom-tasks src/open_r1/evaluate.py \
+    --use-chat-template \
+    --output-dir $OUTPUT_DIR
+
