@@ -22,5 +22,8 @@ wandb login
 # 執行 accelerate 指令開始訓練
 accelerate launch   --config_file recipes/accelerate_configs/8v100.yaml   --num_processes 8   --main_process_port 29500   --machine_rank 0   --mixed_precision fp16   src/open_r1/sft.py   --model_name_or_path Qwen/Qwen2.5-1.5B-Instruct   --dataset_name open-r1/OpenR1-Math-220k   --learning_rate 0.00005   --num_train_epochs 1   --max_seq_length 2048   --per_device_train_batch_size 6   --gradient_accumulation_steps 2   --gradient_checkpointing   --fp16   --output_dir data/Qwen2.5-1.5B-Open-R1-Distill-0317   --log_level info   --dataloader_num_workers 4 \
 
+# 7B
+accelerate launch   --config_file recipes/accelerate_configs/8v100.yaml   --num_processes 8   --main_process_port 29500   --machine_rank 0   --mixed_precision fp16   src/open_r1/sft.py   --model_name_or_path Qwen/Qwen2.5-7B-Instruct   --dataset_name open-r1/OpenR1-Math-220k   --learning_rate 0.00002   --num_train_epochs 1   --max_seq_length 2048   --per_device_train_batch_size 2   --gradient_accumulation_steps 4   --gradient_checkpointing   --fp16   --output_dir data/Qwen2.5-7B-Open-R1-Distill-0317   --log_level info   --dataloader_num_workers 4
+
 # GPU 使用率監控:
 watch -n 1 nvidia-smi
