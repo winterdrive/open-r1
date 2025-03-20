@@ -22,7 +22,7 @@ NUM_GPUS=8
 MODEL="/mnt/openr1_data_disk/OpenR1_PT/open-r1/data/gemma-3-1b-it"
 # 由於 Tesla V100 不支援 bfloat16，這裡使用 half (float16)
 MODEL_ARGS="pretrained=$MODEL,dtype=half,data_parallel_size=$NUM_GPUS,max_model_length=32768,gpu_memory_utilization=0.8,generation_parameters={\"max_new_tokens\":32768,\"temperature\":0.6,\"top_p\":0.95}"
-TASK="aime24"
+TASK="math_500"
 OUTPUT_DIR="data/evals/$(basename $MODEL)"
 
 lighteval vllm $MODEL_ARGS "custom|$TASK|0|0" \
@@ -39,7 +39,7 @@ NUM_GPUS=8
 MODEL="/mnt/openr1_data_disk/OpenR1_PT/open-r1/data/Qwen2.5-1.5B-Open-R1-Distill-0317"
 # 由於 Tesla V100 不支援 bfloat16，這裡使用 half (float16)
 MODEL_ARGS="pretrained=$MODEL,dtype=half,data_parallel_size=$NUM_GPUS,max_model_length=32768,gpu_memory_utilization=0.8,generation_parameters={\"max_new_tokens\":32768,\"temperature\":0.6,\"top_p\":0.95}"
-TASK="aime24"
+TASK="math_500"
 OUTPUT_DIR="data/evals/$(basename $MODEL)"
 
 lighteval vllm $MODEL_ARGS "custom|$TASK|0|0" \
@@ -55,7 +55,61 @@ NUM_GPUS=8
 MODEL="/mnt/openr1_data_disk/OpenR1_PT/open-r1/data/Qwen2.5-7B-Open-R1-Distill-0317"
 # 由於 Tesla V100 不支援 bfloat16，這裡使用 half (float16)
 MODEL_ARGS="pretrained=$MODEL,dtype=half,data_parallel_size=$NUM_GPUS,max_model_length=32768,gpu_memory_utilization=0.8,generation_parameters={\"max_new_tokens\":32768,\"temperature\":0.6,\"top_p\":0.95}"
-TASK="aime24"
+TASK="math_500"
+OUTPUT_DIR="data/evals/$(basename $MODEL)"
+
+lighteval vllm $MODEL_ARGS "custom|$TASK|0|0" \
+    --custom-tasks src/open_r1/evaluate.py \
+    --use-chat-template \
+    --output-dir $OUTPUT_DIR
+
+
+
+NUM_GPUS=8
+MODEL="deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B"
+MODEL_ARGS="pretrained=$MODEL,dtype=half,data_parallel_size=$NUM_GPUS,max_model_length=32768,gpu_memory_utilization=0.8,generation_parameters={\"max_new_tokens\":32768,\"temperature\":0.6,\"top_p\":0.95}"
+TASK="math_500"
+OUTPUT_DIR="data/evals/$(basename $MODEL)"
+
+lighteval vllm $MODEL_ARGS "custom|$TASK|0|0" \
+    --custom-tasks src/open_r1/evaluate.py \
+    --use-chat-template \
+    --output-dir $OUTPUT_DIR
+
+
+NUM_GPUS=8
+MODEL="deepseek-ai/DeepSeek-R1-Distill-Qwen-7B"
+MODEL_ARGS="pretrained=$MODEL,dtype=half,data_parallel_size=$NUM_GPUS,max_model_length=32768,gpu_memory_utilization=0.8,generation_parameters={\"max_new_tokens\":32768,\"temperature\":0.6,\"top_p\":0.95}"
+TASK="math_500"
+OUTPUT_DIR="data/evals/$(basename $MODEL)"
+
+lighteval vllm $MODEL_ARGS "custom|$TASK|0|0" \
+    --custom-tasks src/open_r1/evaluate.py \
+    --use-chat-template \
+    --output-dir $OUTPUT_DIR
+
+
+# Qwen/Qwen2.5-1.5B
+# Qwen/Qwen2.5-7B
+# Qwen/Qwen2.5-1.5B-Instruct
+# Qwen/Qwen2.5-7B-Instruct
+
+NUM_GPUS=8
+MODEL="Qwen/Qwen2.5-1.5B-Instruct"
+MODEL_ARGS="pretrained=$MODEL,dtype=half,data_parallel_size=$NUM_GPUS,max_model_length=32768,gpu_memory_utilization=0.8,generation_parameters={\"max_new_tokens\":32768,\"temperature\":0.6,\"top_p\":0.95}"
+TASK="math_500"
+OUTPUT_DIR="data/evals/$(basename $MODEL)"
+
+lighteval vllm $MODEL_ARGS "custom|$TASK|0|0" \
+    --custom-tasks src/open_r1/evaluate.py \
+    --use-chat-template \
+    --output-dir $OUTPUT_DIR
+
+
+NUM_GPUS=8
+MODEL="Qwen/Qwen2.5-7B-Instruct"
+MODEL_ARGS="pretrained=$MODEL,dtype=half,data_parallel_size=$NUM_GPUS,max_model_length=32768,gpu_memory_utilization=0.8,generation_parameters={\"max_new_tokens\":32768,\"temperature\":0.6,\"top_p\":0.95}"
+TASK="math_500"
 OUTPUT_DIR="data/evals/$(basename $MODEL)"
 
 lighteval vllm $MODEL_ARGS "custom|$TASK|0|0" \
